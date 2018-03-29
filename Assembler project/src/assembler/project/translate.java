@@ -34,6 +34,11 @@ public class translate {
        String results ="";
        results+=RunZero()+"$";
        results+=FirstRun()+"$";
+       results+=SecondRun()+"$";
+       
+       //translate process
+       
+       
        return results;
     }
    
@@ -96,23 +101,20 @@ public class translate {
            if(HackCode.peek().contains("@")){
              //It is a variable or tag
              if(dictionary.containsKey(HackCode.peek())){
-             //It is a tag
+             //It is a tag or variable before entered
+                temp.add(dictionary.get(ConvertToBinary(HackCode.remove()))); //¿´Para regresar a la etiqueta como reconoce que no es una instruccion tipo a?
              }else{
              //It is a variable
+                dictionary.put(HackCode.peek(), RAMCount+"");
+                RAMCount++;
              }
-           }
-             /*
-             dictionary.put(tag, i+"");
-             HackCode.remove();
-             i-=1;
-             limit-=1;
           }else{
              //It is instruction
-             withoutTags+=HackCode.peek()+"\n";
              temp.add(HackCode.remove());
           }
-                     */
+           result+=temp.peek()+"\n";
        }
+       HackCode = temp;
        return result;
     }
     
@@ -128,7 +130,51 @@ public class translate {
          }
        codeFile.close();
     }
+    
+    private String ConvertToBinary(String number){
+       int intNumber = Integer.parseInt(number);
+       String bin = Integer.toBinaryString(intNumber);
+       
+       for (int i = 0; i < 16 - bin.length(); i++)
+       {
+          bin = "0"+bin;
+       }
+       return bin;
+    }
  
+    private boolean IsBinary(String expretion){
+       return expretion.contains("0") || expretion.contains("1");
+    }
+    
+    private String ContainSign(String expretion){
+       if(expretion.contains("=")){
+          return "=";
+       }
+       else if(expretion.contains("+")){
+          return "+";
+       }else if(expretion.contains("&")){
+          return "&";
+       }else if(expretion.contains("|")){
+          return "|";
+       }else if(expretion.contains("!")){
+          return "!";
+       }else if(expretion.contains("-")){
+          if(expretion.split("-")[0].equals("")){
+             return "";
+          }else{
+             return "-";
+          }
+       }
+       return "";
+    }
+    
+    private String InstructionTypeC(String expretion){
+       String c = "";
+       
+       
+       return c;
+       
+    }
     public  Hashtable<String, String> ReadSymbolsFile( Hashtable<String, String> dictionary_,String fileName) throws Exception{
         File file = new File(fileName);
         BufferedReader reader = new BufferedReader(new FileReader(file));
