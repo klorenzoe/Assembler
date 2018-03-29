@@ -16,6 +16,8 @@ public class AssemblerProject {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+       Frame interphase = new Frame();
+       interphase.setVisible(true);
     }
     
 }
