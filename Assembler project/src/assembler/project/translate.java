@@ -21,9 +21,19 @@ public class translate {
     private int RAMCount = 16;
     public String codeContent="";
     
+    //instances about the C instruction
+    private Hashtable<String, String> comp_0 = new Hashtable<String, String>();
+    private Hashtable<String, String> comp_1 = new Hashtable<String, String>();
+    private Hashtable<String, String> dest_ = new Hashtable<String, String>();
+    private Hashtable<String, String> jmp_ = new Hashtable<String, String>();
+    
     //methods...................................................................................
     public translate(String HackCodeFileName) throws Exception{
-       dictionary = ReadSymbolsFile(dictionary, ".\\src\\assembler\\project\\DefaultSymbols.txt");
+       dictionary = ReadSymbolsFile(dictionary, ".\\src\\assembler\\project\\Files source\\DefaultSymbols.txt");
+       comp_0 = ReadSymbolsFile(comp_0, ".\\src\\assembler\\project\\Files source\\comp0.txt");
+       comp_1 = ReadSymbolsFile(comp_1, ".\\src\\assembler\\project\\Files source\\comp1.txt");
+       dest_ = ReadSymbolsFile(dest_, ".\\src\\assembler\\project\\Files source\\dest.txt");
+       jmp_ = ReadSymbolsFile(jmp_, ".\\src\\assembler\\project\\Files source\\jmp.txt");
        ReadHackCode(HackCodeFileName);
     }
     
@@ -146,34 +156,58 @@ public class translate {
        return expretion.contains("0") || expretion.contains("1");
     }
     
-    private String ContainSign(String expretion){
+    private String WhatConstains(String expretion){
+       
        if(expretion.contains("=")){
           return "=";
+       }else if(expretion.contains("0")){
+          return "0";
        }
-       else if(expretion.contains("+")){
-          return "+";
-       }else if(expretion.contains("&")){
-          return "&";
-       }else if(expretion.contains("|")){
-          return "|";
-       }else if(expretion.contains("!")){
-          return "!";
-       }else if(expretion.contains("-")){
-          if(expretion.split("-")[0].equals("")){
-             return "";
-          }else{
-             return "-";
-          }
+       else if(expretion.contains("1")){
+          return "1";
+       }else if(expretion.contains("-1")){
+          return "-1";
+       }else{
+          return "J";
        }
-       return "";
     }
     
     private String InstructionTypeC(String expretion){
-       String c = "";
+       String bitA = "";
+       String comp ="000000";
+       String dest = "000";
+       String jump ="000";
        
-       
-       return c;
-       
+       while(true){
+          switch(WhatConstains(expretion)){
+             case "=":
+                dest = dest_.get(expretion.split("=")[0].trim());
+                expretion=expretion.split("=")[1].trim();
+                break;
+             case "0":
+                comp = comp_0.get("0");
+                break;
+             case "1":
+                 comp = comp_0.get("1");
+                break;
+             case "-1":
+                 comp = comp_0.get("-1");
+                break;
+             case "J":
+                comp = comp_0.get(expretion.split(";")[0].trim());
+                jump = jmp_.get(expretion.split(";")[1].trim());
+                expretion="";
+                break;
+             default:
+                if(expretion.contains("M")){
+                   comp = comp_1.get(expretion.trim());
+                }else{
+                   comp = comp_0.get(expretion.trim());
+                }
+                expretion="";
+                break;
+          }
+       }
     }
     public  Hashtable<String, String> ReadSymbolsFile( Hashtable<String, String> dictionary_,String fileName) throws Exception{
         File file = new File(fileName);
