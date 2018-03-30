@@ -198,7 +198,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Yu Gothic" size="18" style="1"/>
+              <Font name="Yu Gothic UI Semilight" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Assembler"/>
           </Properties>
@@ -206,7 +206,7 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Yu Gothic" size="18" style="1"/>
+              <Font name="Yu Gothic UI Semilight" size="18" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Hack code"/>
           </Properties>
@@ -469,6 +469,9 @@
               <Image iconType="3" name="/assembler/project/comparer.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel10MouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

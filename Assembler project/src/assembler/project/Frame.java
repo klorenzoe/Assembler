@@ -6,12 +6,14 @@
 package assembler.project;
 import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.io.BufferedReader;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import javax.swing.JOptionPane; 
 import java.io.PrintWriter;
 import java.io.File;
+import java.io.FileReader;
 
 
 
@@ -90,10 +92,10 @@ public class Frame extends javax.swing.JFrame
 
       jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assembler/project/flecha.png"))); // NOI18N
 
-      jLabel1.setFont(new java.awt.Font("Yu Gothic", 1, 18)); // NOI18N
+      jLabel1.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
       jLabel1.setText("Assembler");
 
-      jLabel3.setFont(new java.awt.Font("Yu Gothic", 1, 18)); // NOI18N
+      jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
       jLabel3.setText("Hack code");
 
       btnExport.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
@@ -225,6 +227,13 @@ public class Frame extends javax.swing.JFrame
       );
 
       jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assembler/project/comparer.png"))); // NOI18N
+      jLabel10.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jLabel10MouseClicked(evt);
+         }
+      });
 
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
@@ -367,15 +376,15 @@ public class Frame extends javax.swing.JFrame
          chooser.setDialogTitle("Choose a location to save this assembler");
          chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
          chooser.setAcceptAllFileFilterUsed(false);
-         String name = "\\Assembler.out";
+         String name = "\\Assembler.hack";
          //    
          try{
                if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                   if((export = new File(chooser.getCurrentDirectory()+name)).exists()){
-                     name = "\\Assembler("+count+").out";
+                     name = "\\Assembler("+count+").hack";
                      while((export = new File(chooser.getCurrentDirectory()+name)).exists()){
                            count++;
-                           name = "\\Assembler("+count+").out";
+                           name = "\\Assembler("+count+").hack";
                      }
                   }
                   PrintWriter writer = new PrintWriter(export, "UTF-8");
@@ -392,6 +401,39 @@ public class Frame extends javax.swing.JFrame
 
       }
    }//GEN-LAST:event_btnExportActionPerformed
+
+   private void jLabel10MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jLabel10MouseClicked
+   {//GEN-HEADEREND:event_jLabel10MouseClicked
+      // TODO add your handling code here:
+         try{
+          if(!txtAssembler.getText().isEmpty()){
+             //front-end
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt","*.hack","hack"));
+            chooser.setAcceptAllFileFilterUsed(false);
+             chooser.setDialogTitle("Choose file for comparer");
+            chooser.setCurrentDirectory(new java.io.File(".//..//..//archi_project//nand2tetris//projects//06"));
+            chooser.showOpenDialog(chooser);
+            
+            File entry = new File(chooser.getSelectedFile().getAbsolutePath());
+            BufferedReader codeFile = new BufferedReader(new FileReader(entry));
+            String line;
+            String nand2tetris = "";
+              while ((line = codeFile.readLine()) != null){
+                nand2tetris+=line+"\n";
+              }
+            codeFile.close();
+            FrameComparer comparer = new FrameComparer(nand2tetris, txtAssembler.getText(), this);
+            this.setVisible(false);
+            comparer.setVisible(true);
+          }else{
+             JOptionPane.showMessageDialog(null,"It is necessary run a .asm in this project");
+          }
+              
+        }catch(Exception e){
+           
+        }
+   }//GEN-LAST:event_jLabel10MouseClicked
 
    private void FillTxts(){
       try{
