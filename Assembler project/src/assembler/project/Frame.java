@@ -312,7 +312,7 @@ public class Frame extends javax.swing.JFrame
             txtCode.setText(code.codeContent);
             
             //back-end abd front-end
-            FillTxtAssembler();
+            FillTxts();
               
         }catch(Exception e){
            
@@ -334,13 +334,14 @@ public class Frame extends javax.swing.JFrame
    private void FillTxts(){
       try{
          //back-end
-         String[] txts = code.ConvertToAssembler().split("$");
+         String[] txts = code.ConvertToAssembler().split("%");
          //front-end
          txtComments.setText(txts[0]);
          txtTags.setText(txts[1]);
          txtVariables.setText(txts[2]);
-         txtDictionary.setText(txts[3]);
-         txtAssembler.setText(txts[4]);
+         txtAssembler.setText(txts[3]);
+         txtDictionary.setText(txts[4]);
+         
       }catch(Exception e){
          //front-end
          JOptionPane.showMessageDialog(null,"I can not processing the code, probably your file have a sintax error"); 

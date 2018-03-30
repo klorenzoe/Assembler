@@ -6,8 +6,9 @@
 package assembler.project;
 import java.io.*;
 import java.util.Hashtable;
+import java.util.Enumeration;
+
 import java.util.Queue;
-import java.util.List;
 import java.util.LinkedList;
 /**
  *
@@ -33,7 +34,7 @@ public class translate {
        comp_0 = ReadSymbolsFile(comp_0, ".\\src\\assembler\\project\\Files source\\comp0.txt");
        comp_1 = ReadSymbolsFile(comp_1, ".\\src\\assembler\\project\\Files source\\comp1.txt");
        dest_ = ReadSymbolsFile(dest_, ".\\src\\assembler\\project\\Files source\\dest.txt");
-       jmp_ = ReadSymbolsFile(jmp_, ".\\src\\assembler\\project\\Files source\\jmp.txt");
+       jmp_ = ReadSymbolsFile(jmp_, ".\\src\\assembler\\project\\Files source\\jump.txt");
        ReadHackCode(HackCodeFileName);
     }
     
@@ -42,13 +43,24 @@ public class translate {
       */
     public String ConvertToAssembler(){
        String results ="";
-       results+=RunZero()+"$";
-       results+=FirstRun()+"$";
-       results+=SecondRun()+"$";
+       results+=RunZero()+"%";
+       results+=FirstRun()+"%";
+       results+=SecondRun()+"%";
        
        //translate process
-       
-       
+       Queue<String> temp = new LinkedList<String>();
+       while (HackCode.size()>0)
+       {
+          if(IsBinary(HackCode.peek())){
+             temp.add(HackCode.peek());
+             results+=HackCode.remove()+"\n";
+          }else{
+             temp.add(InstructionTypeC(HackCode.peek().trim()));
+             results+=InstructionTypeC(HackCode.remove().trim())+"\n";
+          }
+          
+       }
+       results+="%" + getDictionary();
        return results;
     }
    
@@ -84,7 +96,7 @@ public class translate {
           if(HackCode.peek().contains("(")){
              //It is a tag
              String tag = "@"+HackCode.peek().replace("(", "").replace(")", "").trim();
-             dictionary.put(tag, i+"");
+             dictionary.put(tag,ConvertToBinary(i+""));
              HackCode.remove();
              i-=1;
              limit-=1;
@@ -110,19 +122,30 @@ public class translate {
        {
            if(HackCode.peek().contains("@")){
              //It is a variable or tag
-             if(dictionary.containsKey(HackCode.peek())){
-             //It is a tag or variable before entered
-                temp.add(dictionary.get(ConvertToBinary(HackCode.remove()))); //¿´Para regresar a la etiqueta como reconoce que no es una instruccion tipo a?
-             }else{
-             //It is a variable
-                dictionary.put(HackCode.peek(), RAMCount+"");
-                RAMCount++;
-             }
+              if(IsNumber(HackCode.peek().replace("@", ""))){
+                 dictionary.put(HackCode.peek(), ConvertToBinary(HackCode.peek().replace("@", "")));
+                 result+= HackCode.peek();
+                 temp.add(HackCode.remove());
+              }else{
+                  if(dictionary.containsKey(HackCode.peek())){
+                 //It is a tag or variable before entered
+                    temp.add(dictionary.get(HackCode.peek()));
+                    result+=dictionary.get(HackCode.remove())+"\n";
+                 }else{
+                 //It is a variable
+                    dictionary.put(HackCode.peek(), ConvertToBinary(RAMCount+""));
+                    result+=ConvertToBinary(RAMCount+"")+"\n";
+                    temp.add(ConvertToBinary(RAMCount+""));
+                    HackCode.remove();
+                     RAMCount++;
+                 }
+              }
+             
           }else{
              //It is instruction
+              result+=HackCode.peek()+"\n";
              temp.add(HackCode.remove());
           }
-           result+=temp.peek()+"\n";
        }
        HackCode = temp;
        return result;
@@ -145,66 +168,133 @@ public class translate {
        int intNumber = Integer.parseInt(number);
        String bin = Integer.toBinaryString(intNumber);
        
-       for (int i = 0; i < 16 - bin.length(); i++)
+       
+       while(bin.length()<16)
        {
           bin = "0"+bin;
        }
        return bin;
     }
  
-    private boolean IsBinary(String expretion){
-       return expretion.contains("0") || expretion.contains("1");
-    }
-    
-    private String WhatConstains(String expretion){
+    private boolean IsBinary(String expression){
+       char[] array = expression.toCharArray();
        
-       if(expretion.contains("=")){
-          return "=";
-       }else if(expretion.contains("0")){
-          return "0";
+       for (int i = 0; i < array.length; i++)
+       {
+          if(array[i]!='0' && array[i]!='1'){
+             return false;
+          }
        }
-       else if(expretion.contains("1")){
-          return "1";
-       }else if(expretion.contains("-1")){
-          return "-1";
-       }else{
-          return "J";
-       }
+       return true;
     }
     
-    private String InstructionTypeC(String expretion){
+    private boolean IsNumber(String number){
+        char[] array = number.toCharArray();
+       
+       for (int i = 0; i < array.length; i++)
+       {
+          if(!"1234567890".contains(array[i]+"")){
+             return false;
+          }
+       }
+       return true;
+    }
+    
+    private String getDictionary(){
+       String result="";
+       int count =1;
+         Enumeration e = dictionary.keys();
+         Object clave;
+         while( e.hasMoreElements() ){
+           clave = e.nextElement();
+           result+=count+") " + clave + " = > " + dictionary.get( clave )+"\n";
+           count++;
+         }
+         
+         return  result;
+    }
+    
+    private String WhatConstains(String expression){
+       
+       if(expression.contains("=")){
+          return "=";
+       }else if(expression.contains("J")) {
+          return "J";
+       }else if(expression.trim().length()==1) {
+          if(expression.contains("A")){
+          return "A"; 
+         }else if(expression.contains("D") && expression.trim().length()==1) {
+            return "D";
+         }else if(expression.contains("M")&& expression.trim().length()==1) {
+            return "M";
+         }else if(expression.contains("0")){
+          return "0";
+         }else if(expression.contains("1")){
+            return "1";
+         }else if(expression.contains("-1")){
+            return "-1";
+       }
+    }
+       return expression;
+    }
+    
+    private String InstructionTypeC(String expression){
        String bitA = "";
        String comp ="000000";
        String dest = "000";
        String jump ="000";
        
        while(true){
-          switch(WhatConstains(expretion)){
+          switch(WhatConstains(expression)){
              case "=":
-                dest = dest_.get(expretion.split("=")[0].trim());
-                expretion=expretion.split("=")[1].trim();
+                dest = dest_.get(expression.split("=")[0].trim());
+                expression=expression.split("=")[1].trim();
                 break;
              case "0":
+                bitA="0";
                 comp = comp_0.get("0");
+                expression="";
                 break;
              case "1":
+                bitA="0";
                  comp = comp_0.get("1");
-                break;
+                 expression="";
+                 break;
              case "-1":
+                bitA="0";
                  comp = comp_0.get("-1");
+                 expression="";
                 break;
              case "J":
-                comp = comp_0.get(expretion.split(";")[0].trim());
-                jump = jmp_.get(expretion.split(";")[1].trim());
-                expretion="";
+                jump = jmp_.get(expression.split(";")[1].trim());
+                expression=expression.split(";")[0];
                 break;
+            case "A":
+               bitA="0";
+              comp = comp_0.get(expression.trim());
+              expression="";
+              break;
+             case "M":
+              bitA="1";
+              comp = comp_1.get(expression.trim());
+              expression="";
+              break;
+             case "D":
+              bitA="0";
+              comp = comp_0.get(expression.trim());
+              expression="";
+              break;
+             case "":
+                return "111"+bitA+comp+dest+jump;
              default:
-                if(expretion.contains("M")){
-                   comp = comp_1.get(expretion.trim());
+                if(expression.contains("M")){
+                   bitA="1";
+                   comp = comp_1.get(expression.trim());
                 }else{
-                   comp = comp_0.get(expretion.trim());
+                   bitA="0";
+                   comp = comp_0.get(expression.trim());
                 }
-                expretion="";
+                expression="";
                 break;
           }
        }
@@ -214,9 +304,12 @@ public class translate {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         
          String instruction;
-         while (!((instruction = reader.readLine()).equals("")) && instruction != null){
-          dictionary_.put(instruction.split(",")[0], instruction.split(",")[1]);
-         }
+         try{
+            while(!(instruction = reader.readLine()).equals("")){
+               dictionary_.put(instruction.split(",")[0], instruction.split(",")[1]);
+            }
+         }catch(Exception e){ }
+         
         reader.close();
        return dictionary_;
     }
