@@ -25,11 +25,12 @@ public class FrameComparer extends javax.swing.JFrame
       initComponents();
    }
    
-   public FrameComparer(String nand2tetris, String myCode, Frame forReturn){
+   public FrameComparer(String nand2tetris, String myCode, String Hack, Frame forReturn){
       initComponents();
       Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
       this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
       
+      Enumerator(Hack.split("\n"), txtHack);
       Enumerator(nand2tetris.split("\n"), txtItsCode);
       Enumerator(myCode.split("\n"), txtmyCode);
       Callback = forReturn;
@@ -78,6 +79,9 @@ public class FrameComparer extends javax.swing.JFrame
       txtComparison = new javax.swing.JTextArea();
       jLabel6 = new javax.swing.JLabel();
       jLabel2 = new javax.swing.JLabel();
+      jScrollPane5 = new javax.swing.JScrollPane();
+      txtHack = new javax.swing.JTextArea();
+      jLabel7 = new javax.swing.JLabel();
 
       txtCode2.setColumns(20);
       txtCode2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
@@ -100,8 +104,6 @@ public class FrameComparer extends javax.swing.JFrame
       txtmyCode.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtmyCode.setRows(5);
       txtmyCode.setDisabledTextColor(new java.awt.Color(0, 0, 153));
-      txtmyCode.setEnabled(false);
-      txtmyCode.setFocusable(false);
       jScrollPane1.setViewportView(txtmyCode);
 
       jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
@@ -113,7 +115,6 @@ public class FrameComparer extends javax.swing.JFrame
       txtItsCode.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtItsCode.setRows(5);
       txtItsCode.setDisabledTextColor(new java.awt.Color(0, 0, 153));
-      txtItsCode.setEnabled(false);
       jScrollPane2.setViewportView(txtItsCode);
 
       jLabel4.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
@@ -125,7 +126,6 @@ public class FrameComparer extends javax.swing.JFrame
       txtComparison.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtComparison.setRows(5);
       txtComparison.setDisabledTextColor(new java.awt.Color(0, 0, 153));
-      txtComparison.setEnabled(false);
       jScrollPane4.setViewportView(txtComparison);
 
       jLabel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -142,6 +142,18 @@ public class FrameComparer extends javax.swing.JFrame
          }
       });
 
+      txtHack.setEditable(false);
+      txtHack.setBackground(new java.awt.Color(242, 242, 242));
+      txtHack.setColumns(20);
+      txtHack.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+      txtHack.setRows(5);
+      txtHack.setDisabledTextColor(new java.awt.Color(0, 0, 153));
+      jScrollPane5.setViewportView(txtHack);
+
+      jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+      jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+      jLabel7.setText("Hack code");
+
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
@@ -149,13 +161,17 @@ public class FrameComparer extends javax.swing.JFrame
          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
             .addGap(48, 48, 48)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+               .addComponent(jLabel7)
+               .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(jLabel3)
                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGap(55, 55, 55)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(jLabel4)
                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+            .addGap(58, 58, 58)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addComponent(jLabel6)
                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -181,21 +197,23 @@ public class FrameComparer extends javax.swing.JFrame
                .addGroup(jPanel1Layout.createSequentialGroup()
                   .addComponent(jLabel4)
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                  .addComponent(jScrollPane2)))
-            .addContainerGap(37, Short.MAX_VALUE))
+                  .addComponent(jScrollPane2))
+               .addGroup(jPanel1Layout.createSequentialGroup()
+                  .addComponent(jLabel7)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                  .addComponent(jScrollPane5)))
+            .addContainerGap(64, Short.MAX_VALUE))
       );
 
       javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(layout.createSequentialGroup()
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(0, 0, Short.MAX_VALUE))
+         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       );
 
       pack();
@@ -274,13 +292,16 @@ public class FrameComparer extends javax.swing.JFrame
    private javax.swing.JLabel jLabel4;
    private javax.swing.JLabel jLabel5;
    private javax.swing.JLabel jLabel6;
+   private javax.swing.JLabel jLabel7;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JScrollPane jScrollPane1;
    private javax.swing.JScrollPane jScrollPane2;
    private javax.swing.JScrollPane jScrollPane3;
    private javax.swing.JScrollPane jScrollPane4;
+   private javax.swing.JScrollPane jScrollPane5;
    private javax.swing.JTextArea txtCode2;
    private javax.swing.JTextArea txtComparison;
+   private javax.swing.JTextArea txtHack;
    private javax.swing.JTextArea txtItsCode;
    private javax.swing.JTextArea txtmyCode;
    // End of variables declaration//GEN-END:variables

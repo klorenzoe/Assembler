@@ -129,7 +129,7 @@ public class translate {
              //It is a variable or tag
               if(IsNumber(HackCode.peek().replace("@", ""))){
                  dictionary.put(HackCode.peek(), ConvertToBinary(HackCode.peek().replace("@", "")));
-                 result+= ConvertToBinary(HackCode.peek().replace("@", ""));
+                 result+= ConvertToBinary(HackCode.peek().replace("@", ""))+"\n";
                  temp.add(ConvertToBinary(HackCode.remove().replace("@", "")));
               }else{
                   if(dictionary.containsKey(HackCode.peek())){
@@ -269,7 +269,7 @@ public class translate {
    * Translate the expression type C in a code of 16'bits
    */
     private String InstructionTypeC(String expression){
-       String bitA = "";
+       String bitA = "0";
        String comp ="000000";
        String dest = "000";
        String jump ="000";
