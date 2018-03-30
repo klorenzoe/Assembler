@@ -10,6 +10,10 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import javax.swing.JOptionPane; 
+import java.io.PrintWriter;
+import java.io.File;
+
+
 
 /**
  *
@@ -64,6 +68,7 @@ public class Frame extends javax.swing.JFrame
       jScrollPane4 = new javax.swing.JScrollPane();
       txtVariables = new javax.swing.JTextArea();
       jLabel6 = new javax.swing.JLabel();
+      jLabel10 = new javax.swing.JLabel();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,6 +98,13 @@ public class Frame extends javax.swing.JFrame
 
       btnExport.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
       btnExport.setText("Export");
+      btnExport.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            btnExportActionPerformed(evt);
+         }
+      });
 
       btnImport.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
       btnImport.setText("Import");
@@ -117,9 +129,10 @@ public class Frame extends javax.swing.JFrame
       txtDictionary.setColumns(20);
       txtDictionary.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtDictionary.setRows(5);
+      txtDictionary.setDisabledTextColor(new java.awt.Color(0, 102, 102));
       jScrollPane6.setViewportView(txtDictionary);
 
-      jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 13)); // NOI18N
+      jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 16)); // NOI18N
       jLabel7.setText("Final dictionary...");
 
       jPanel2.setBackground(new java.awt.Color(239, 69, 102));
@@ -128,6 +141,7 @@ public class Frame extends javax.swing.JFrame
       txtComments.setColumns(20);
       txtComments.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtComments.setRows(5);
+      txtComments.setDisabledTextColor(new java.awt.Color(186, 85, 84));
       txtComments.setEnabled(false);
       jScrollPane5.setViewportView(txtComments);
 
@@ -140,6 +154,7 @@ public class Frame extends javax.swing.JFrame
       txtTags.setColumns(20);
       txtTags.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtTags.setRows(5);
+      txtTags.setDisabledTextColor(new java.awt.Color(186, 85, 84));
       txtTags.setEnabled(false);
       jScrollPane3.setViewportView(txtTags);
 
@@ -152,6 +167,7 @@ public class Frame extends javax.swing.JFrame
       txtVariables.setColumns(20);
       txtVariables.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
       txtVariables.setRows(5);
+      txtVariables.setDisabledTextColor(new java.awt.Color(186, 85, 84));
       txtVariables.setEnabled(false);
       jScrollPane4.setViewportView(txtVariables);
 
@@ -208,64 +224,61 @@ public class Frame extends javax.swing.JFrame
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
 
+      jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assembler/project/comparer.png"))); // NOI18N
+
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addGap(48, 48, 48)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addComponent(jLabel3)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(btnImport))
-               .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                  .addContainerGap()
+                  .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10)
+                        .addGap(21, 21, 21)
+                        .addComponent(lblClear))
+                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)))
                .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addGap(253, 253, 253)
-                  .addComponent(jLabel1)
-                  .addGap(289, 289, 289)
-                  .addComponent(btnExport))
-               .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                  .addComponent(jLabel2)
-                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblClear)
-            .addGap(21, 21, 21))
-         .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(15, 15, 15)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jLabel7))
-            .addContainerGap(42, Short.MAX_VALUE))
+                  .addGap(48, 48, 48)
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnImport))
+                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE))
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(253, 253, 253)
+                        .addComponent(jLabel1)
+                        .addGap(289, 289, 289)
+                        .addComponent(btnExport))
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                  .addGap(0, 0, Short.MAX_VALUE)))
+            .addGap(27, 27, 27))
       );
       jPanel1Layout.setVerticalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
          .addGroup(jPanel1Layout.createSequentialGroup()
-            .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addComponent(lblClear)
-                  .addGap(0, 0, Short.MAX_VALUE))
-               .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                  .addGap(0, 0, Short.MAX_VALUE)
+                  .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                      .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
                         .addComponent(btnExport)
-                        .addComponent(btnImport)))))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-               .addGroup(jPanel1Layout.createSequentialGroup()
-                  .addComponent(jLabel7)
-                  .addGap(18, 18, 18)
-                  .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE))
-               .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnImport)))
+                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                   .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                      .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
@@ -274,7 +287,20 @@ public class Frame extends javax.swing.JFrame
                         .addGap(115, 115, 115)
                         .addComponent(jLabel2)))
                   .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                  .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                  .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addGroup(jPanel1Layout.createSequentialGroup()
+                  .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(93, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18))
+                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                           .addComponent(jLabel10)
+                           .addComponent(lblClear))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                  .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGap(27, 27, 27))
       );
 
@@ -282,9 +308,7 @@ public class Frame extends javax.swing.JFrame
       getContentPane().setLayout(layout);
       layout.setHorizontalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-         .addGroup(layout.createSequentialGroup()
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+         .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       );
       layout.setVerticalGroup(
          layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,9 +324,10 @@ public class Frame extends javax.swing.JFrame
        try{
           //front-end
             JFileChooser chooser = new JFileChooser();
-            chooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt"));
+            chooser.setFileFilter(new FileNameExtensionFilter("*.txt", "txt","*.asm","asm"));
             chooser.setAcceptAllFileFilterUsed(false);
-            chooser.setCurrentDirectory(new File("C:\\Users\\usuario\\Desktop\\Universidad\\Arquitectura\\Assember java"));
+            
+            chooser.setCurrentDirectory(new java.io.File(".//..//..//archi_project//nand2tetris//projects//06"));
             chooser.showOpenDialog(chooser);
             
             //back-end
@@ -331,6 +356,43 @@ public class Frame extends javax.swing.JFrame
       txtComments.setText("");
    }//GEN-LAST:event_lblClearMouseClicked
 
+   private void btnExportActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnExportActionPerformed
+   {//GEN-HEADEREND:event_btnExportActionPerformed
+      // TODO add your handling code here:
+      if(!txtAssembler.getText().isEmpty()){
+         int count =1;
+         File export;
+         JFileChooser chooser = new JFileChooser(); 
+         chooser.setCurrentDirectory(new java.io.File("."));
+         chooser.setDialogTitle("Choose a location to save this assembler");
+         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+         chooser.setAcceptAllFileFilterUsed(false);
+         String name = "\\Assembler.out";
+         //    
+         try{
+               if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                  if((export = new File(chooser.getCurrentDirectory()+name)).exists()){
+                     name = "\\Assembler("+count+").out";
+                     while((export = new File(chooser.getCurrentDirectory()+name)).exists()){
+                           count++;
+                           name = "\\Assembler("+count+").out";
+                     }
+                  }
+                  PrintWriter writer = new PrintWriter(export, "UTF-8");
+                  String[] lines = txtAssembler.getText().split("\n");
+                  for (int i = 0; i < lines.length; i++)
+                  {
+                     writer.println(lines[i]);
+                  }
+                  writer.close();
+             JOptionPane.showMessageDialog(null,"¡Export success!");     
+         }
+         }catch(Exception e){
+         }
+
+      }
+   }//GEN-LAST:event_btnExportActionPerformed
+
    private void FillTxts(){
       try{
          //back-end
@@ -341,7 +403,6 @@ public class Frame extends javax.swing.JFrame
          txtVariables.setText(txts[2]);
          txtAssembler.setText(txts[3]);
          txtDictionary.setText(txts[4]);
-         
       }catch(Exception e){
          //front-end
          JOptionPane.showMessageDialog(null,"I can not processing the code, probably your file have a sintax error"); 
@@ -400,6 +461,7 @@ public class Frame extends javax.swing.JFrame
    private javax.swing.JButton btnExport;
    private javax.swing.JButton btnImport;
    private javax.swing.JLabel jLabel1;
+   private javax.swing.JLabel jLabel10;
    private javax.swing.JLabel jLabel2;
    private javax.swing.JLabel jLabel3;
    private javax.swing.JLabel jLabel4;

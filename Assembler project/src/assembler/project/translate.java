@@ -29,6 +29,11 @@ public class translate {
     private Hashtable<String, String> jmp_ = new Hashtable<String, String>();
     
     //methods...................................................................................
+    
+      /*
+      * The constructor method fills the the dictionaries
+      */
+
     public translate(String HackCodeFileName) throws Exception{
        dictionary = ReadSymbolsFile(dictionary, ".\\src\\assembler\\project\\Files source\\DefaultSymbols.txt");
        comp_0 = ReadSymbolsFile(comp_0, ".\\src\\assembler\\project\\Files source\\comp0.txt");
@@ -65,7 +70,7 @@ public class translate {
     }
    
      /*
-      * This method delete the comments for the hack code
+      * This method deletes the comments for the hack code
       */
     private String RunZero(){
        Queue<String> temp = new LinkedList<String>();
@@ -85,7 +90,7 @@ public class translate {
     }
     
      /*
-      * This method find the tags and save this on memory ROM
+      * This method finds the tags and save this on memory ROM
       */
     private String FirstRun(){
         Queue<String> temp = new LinkedList<String>();
@@ -112,7 +117,7 @@ public class translate {
     
     
     /*
-      * This method find the variables and save this on memory RAM 
+      * This method finds the variables and save this on memory RAM 
       */
     private String SecondRun(){
        Queue<String> temp = new LinkedList<String>();
@@ -124,8 +129,8 @@ public class translate {
              //It is a variable or tag
               if(IsNumber(HackCode.peek().replace("@", ""))){
                  dictionary.put(HackCode.peek(), ConvertToBinary(HackCode.peek().replace("@", "")));
-                 result+= HackCode.peek();
-                 temp.add(HackCode.remove());
+                 result+= ConvertToBinary(HackCode.peek().replace("@", ""));
+                 temp.add(ConvertToBinary(HackCode.remove().replace("@", "")));
               }else{
                   if(dictionary.containsKey(HackCode.peek())){
                  //It is a tag or variable before entered
@@ -151,6 +156,10 @@ public class translate {
        return result;
     }
     
+   /*
+    * Fills a Queue with Hack code selected
+    */
+
     private void ReadHackCode(String fileName)throws  Exception{
       
        File entry = new File(fileName);
@@ -164,6 +173,9 @@ public class translate {
        codeFile.close();
     }
     
+  /*
+   * This method receives a number (in String format) and converts it to binary
+   */
     private String ConvertToBinary(String number){
        int intNumber = Integer.parseInt(number);
        String bin = Integer.toBinaryString(intNumber);
@@ -176,6 +188,9 @@ public class translate {
        return bin;
     }
  
+  /*
+   * Returns if a entry is a binary number
+   */
     private boolean IsBinary(String expression){
        char[] array = expression.toCharArray();
        
@@ -188,6 +203,9 @@ public class translate {
        return true;
     }
     
+    /*
+   * Returns if a entry is a number
+   */
     private boolean IsNumber(String number){
         char[] array = number.toCharArray();
        
@@ -200,6 +218,10 @@ public class translate {
        return true;
     }
     
+    
+  /*
+   * Returns our dictionary of equivalences in string format
+   */
     private String getDictionary(){
        String result="";
        int count =1;
@@ -207,13 +229,17 @@ public class translate {
          Object clave;
          while( e.hasMoreElements() ){
            clave = e.nextElement();
-           result+=count+") " + clave + " = > " + dictionary.get( clave )+"\n";
+           result+=count+") " + clave + " => " + dictionary.get( clave )+"\n";
            count++;
          }
          
          return  result;
     }
     
+    
+    /*
+   * Returns the symbol more relevant on expression, but if it does not find one, returns the expression.
+   */
     private String WhatConstains(String expression){
        
        if(expression.contains("=")){
@@ -238,6 +264,10 @@ public class translate {
        return expression;
     }
     
+    
+    /*
+   * Translate the expression type C in a code of 16'bits
+   */
     private String InstructionTypeC(String expression){
        String bitA = "";
        String comp ="000000";
@@ -299,6 +329,10 @@ public class translate {
           }
        }
     }
+    
+    /*
+   * Generic method that reads files and fills dictionaries
+   */
     public  Hashtable<String, String> ReadSymbolsFile( Hashtable<String, String> dictionary_,String fileName) throws Exception{
         File file = new File(fileName);
         BufferedReader reader = new BufferedReader(new FileReader(file));
