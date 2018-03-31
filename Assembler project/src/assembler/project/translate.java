@@ -277,8 +277,8 @@ public class translate {
        while(true){
           switch(WhatConstains(expression)){
              case "=":
-                dest = dest_.get(expression.split("=")[0].trim());
-                expression=expression.split("=")[1].trim();
+                dest = dest_.get(expression.split("=")[0].replace(" ", ""));
+                expression=expression.split("=")[1].replace(" ", "");
                 break;
              case "0":
                 bitA="0";
@@ -296,22 +296,22 @@ public class translate {
                  expression="";
                 break;
              case "J":
-                jump = jmp_.get(expression.split(";")[1].trim());
+                jump = jmp_.get(expression.split(";")[1].replace(" ", ""));
                 expression=expression.split(";")[0];
                 break;
             case "A":
                bitA="0";
-              comp = comp_0.get(expression.trim());
+              comp = comp_0.get(expression.replace(" ", ""));
               expression="";
               break;
              case "M":
               bitA="1";
-              comp = comp_1.get(expression.trim());
+              comp = comp_1.get(expression.replace(" ", ""));
               expression="";
               break;
              case "D":
               bitA="0";
-              comp = comp_0.get(expression.trim());
+              comp = comp_0.get(expression.replace(" ", ""));
               expression="";
               break;
              case "":
@@ -319,10 +319,10 @@ public class translate {
              default:
                 if(expression.contains("M")){
                    bitA="1";
-                   comp = comp_1.get(expression.trim());
+                   comp = comp_1.get(expression.replace(" ", ""));
                 }else{
                    bitA="0";
-                   comp = comp_0.get(expression.trim());
+                   comp = comp_0.get(expression.replace(" ", ""));
                 }
                 expression="";
                 break;

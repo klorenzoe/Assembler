@@ -423,7 +423,7 @@ public class Frame extends javax.swing.JFrame
                 nand2tetris+=line+"\n";
               }
             codeFile.close();
-            FrameComparer comparer = new FrameComparer(nand2tetris, txtAssembler.getText(), txtComments.getText(), this);
+            FrameComparer comparer = new FrameComparer(nand2tetris, txtAssembler.getText(), txtTags.getText(), this);
             this.setVisible(false);
             comparer.setVisible(true);
           }else{

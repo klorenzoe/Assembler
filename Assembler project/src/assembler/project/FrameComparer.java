@@ -55,7 +55,7 @@ public class FrameComparer extends javax.swing.JFrame
          if(A[i].equals(B[i])){
             C+="TRUE\n";
          }else{
-            C+="FALSE\n";
+            C+="~~~~~FALSE~~~~~\n";
          }
       }
       return A.length!=B.length? C+="THE LENGTH IS DIFFERENT!": C;
